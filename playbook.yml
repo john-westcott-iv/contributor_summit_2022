@@ -1,0 +1,16 @@
+---
+- name: Do something with a DB
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Select DB rows
+      community.general.odbc:
+        commit: False
+        dsn: "DRIVER={ODBC Driver 18 for SQL Server};Server=10.0.0.43;Database=TestDB;UID=SA;PWD=Pa55word!;TrustServerCertificate=yes;"
+        query: "SELECT * FROM Inventory;"
+      register: inventory
+
+    - debug:
+        msg: "{{ inventory.results }}"
+
